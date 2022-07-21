@@ -2,18 +2,20 @@ package com.fatec.mr.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "tb_vendas")
@@ -29,12 +31,10 @@ public class Venda {
 	@NotBlank(message = "O valor total precisa ser preenchido.")
 	private BigDecimal total;
 	
-	@ManyToOne
-	@JsonIgnoreProperties("vendas")
-	private Produto produto;
+	@ManyToMany(cascade={CascadeType.ALL})
+	private List<Produto> produto;
 	
 	@ManyToOne
-	@JsonIgnoreProperties("vendas")
 	private Cliente cliente;
 
 	public Long getId() {
@@ -61,11 +61,12 @@ public class Venda {
 		this.total = total;
 	}
 
-	public Produto getProduto() {
+
+	public List<Produto> getProduto() {
 		return produto;
 	}
 
-	public void setProduto(Produto produto) {
+	public void setProduto(List<Produto> produto) {
 		this.produto = produto;
 	}
 

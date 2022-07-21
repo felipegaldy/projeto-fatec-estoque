@@ -3,7 +3,7 @@ package com.fatec.mr.model;
 import java.time.LocalDate;
 
 public class UserLogin {
-	
+
 	private Long id;
 	
 	private String nome;
@@ -11,18 +11,30 @@ public class UserLogin {
 	private String usuario;
 	
 	private String senha;
-	
+
 	private String foto;
-	
+
 	private LocalDate dataNascimento;
 	
 	private String token;
 
-	public Long getId() {
+	public UserLogin(Long id, String nome, String usuario, String senha, String foto, LocalDate dataNascimento, String token) {
+		this.id = id;
+		this.nome = nome;
+		this.usuario = usuario;
+		this.senha = senha;
+		this.foto = foto;
+		this.dataNascimento = dataNascimento;
+		this.token = token;
+	}
+	
+	public UserLogin() {	}
+	
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -65,7 +77,7 @@ public class UserLogin {
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-
+	
 	public String getToken() {
 		return token;
 	}

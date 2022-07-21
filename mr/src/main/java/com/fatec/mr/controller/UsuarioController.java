@@ -26,8 +26,9 @@ import com.fatec.mr.service.UsuarioService;
 
 @RestController
 @RequestMapping("/usuarios")
-@CrossOrigin(origins ="*", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UsuarioController {
+
 	@Autowired
 	private UsuarioService usuarioService;
 	
@@ -35,45 +36,51 @@ public class UsuarioController {
 	private UsuarioRepository usuarioRepository;
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<Usuario>> getAll(){
+	public ResponseEntity <List<Usuario>> getAll(){
+		
 		return ResponseEntity.ok(usuarioRepository.findAll());
+		
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> getById(@PathVariable Long id){
 		return usuarioRepository.findById(id)
-				.map(resposta -> ResponseEntity.ok(resposta))
-				.orElse(ResponseEntity.notFound().build());
+			.map(resposta -> ResponseEntity.ok(resposta))
+			.orElse(ResponseEntity.notFound().build());
 	}
-	
+
 	@PostMapping("/logar")
-	public ResponseEntity<UserLogin> login(@RequestBody Optional<UserLogin> usuarioLogin){
-		return usuarioService.logarUsuario(usuarioLogin)
-				.map(resposta -> ResponseEntity.ok(resposta))
-				.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+	public ResponseEntity<UserLogin> loginUsuario(@RequestBody Optional <UserLogin> usuarioLogin){
+		
+		return usuarioService.autenticarUsuario(usuarioLogin)
+			.map(respostaLogin -> ResponseEntity.status(HttpStatus.OK).body(respostaLogin))
+			.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
 	
 	@PostMapping("/cadastrar")
-    public ResponseEntity<Usuario> cadastrarUsuario(@Valid @RequestBody Usuario usuario){
-        return usuarioService.cadastrarUsuario(usuario)
-                .map(resp -> ResponseEntity.status(HttpStatus.CREATED).body(resp))
-                .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
-    }
+	public ResponseEntity<Usuario> postUsuario(@Valid @RequestBody Usuario usuario){
+		
+		return usuarioService.cadastrarUsuario(usuario)
+			.map(respostaCadastrar -> ResponseEntity.status(HttpStatus.CREATED).body(respostaCadastrar))
+			.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+	}
 	
-	@PutMapping("/editar")
-	public ResponseEntity<Usuario> atualizarUsuario(@Valid @RequestBody Usuario usuario){
+	@PutMapping("/atualizar")
+	public ResponseEntity<Usuario> putUsuario(@Valid @RequestBody Usuario usuario) {
 		return usuarioService.atualizarUsuario(usuario)
-				.map(resp -> ResponseEntity.status(HttpStatus.OK).body(resp))
-				.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+			.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
+			.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deletarUsuario(@PathVariable Long id){
+	public ResponseEntity<?> deleteUsuario(@PathVariable Long id) {
+		
 		return usuarioRepository.findById(id)
-				.map(resp -> {
-					usuarioRepository.deleteById(id);
-					return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-				})
-				.orElse(ResponseEntity.notFound().build());
+			.map(resposta -> {
+				usuarioRepository.deleteById(id);
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+			})
+			.orElse(ResponseEntity.notFound().build());
 	}
+
 }
