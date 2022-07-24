@@ -1,0 +1,5 @@
+package com.fatec.mr.security;
+
+public class UserDetailsImpl {
+
+}

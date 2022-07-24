@@ -1,0 +1,42 @@
+package com.fatec.mr.model;
+
+import java.time.LocalDateTime;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.UpdateTimestamp;
+
+@Entity
+@Table(name = "tb_produtos")
+public class Produto {
+	  
+	//atributos
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;  // chave primaria
+	
+	@NotBlank(message = "Nome é obrigatório!")
+	@Size(min = 3, max = 255)
+	private String nome;
+	
+	@NotBlank(message = "Descrição é obrigatório!")
+	@Size(min = 3, max = 600)
+	private String descricao;
+	
+	@NotBlank(message = "Preço é obrigatório!")
+	private double preco;
+	
+	@NotBlank(message = "Quantidade é obrigatório!")
+	private int quantidade;
+	
+	private String foto;
+	
+	@UpdateTimestamp
+	private LocalDateTime data;
+}
