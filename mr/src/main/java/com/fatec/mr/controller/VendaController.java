@@ -46,7 +46,7 @@ public class VendaController {
 		return ResponseEntity.status(HttpStatus.OK).body(repository.save(venda));
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/deletar/{id}")
 	public void  deletar(@PathVariable Long id) {
 		repository.deleteById(id);
 	}
